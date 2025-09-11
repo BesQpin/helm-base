@@ -1,0 +1,22 @@
+﻿apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "base-chart.fullname" . }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    {{- include "base-chart.annotations" . | nindent 4 }}
+  labels:
+    {{- include "base-chart.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "base-chart.selectorLabels" . | nindent 6 }}
+  {{- if and (not (empty .Values.pdb.minAvailable)) (not (empty .Values.pdb.maxUnavailable)) }}
+  minAvailable: {{ .Values.pdb.minAvailable }}
+  {{- else if not (empty .Values.pdb.maxUnavailable) }}
+  maxUnavailable: {{ .Values.pdb.maxUnavailable }}
+  {{- else if and (empty .Values.pdb.minAvailable) (empty .Values.pdb.maxUnavailable) (eq (int .Values.replicaCount) 1) }}
+  maxUnavailable: 1
+  {{- else }}
+  minAvailable: 1
+  {{- end }}
