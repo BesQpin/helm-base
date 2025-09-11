@@ -54,6 +54,5 @@ jobs:
             exit 1
           fi
           echo "Pushing $FILE to GHCR..."
-          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/helm-base/base-chart
-          echo "Successfully pushed $FILE to GHCR."
+          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/helm-base
 
