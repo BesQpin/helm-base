@@ -24,8 +24,7 @@ jobs:
       - name: Extract chart version from chart.yaml
         id: version
         run: |
-          ls -la
-          VERSION=$(grep '^version:' base-chart/chart.yaml | awk '{print $2}')
+          VERSION=$(grep '^version:' base-chart/Chart.yaml | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Package Helm chart
