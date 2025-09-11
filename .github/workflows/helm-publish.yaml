@@ -29,6 +29,8 @@ jobs:
 
       - name: Package Helm chart
         run: |
+          pwd
+          ls -la
           helm package base-chart --version ${{ steps.version.outputs.version }} --app-version ${{ steps.version.outputs.version }}
 
       - name: Log in to GHCR
