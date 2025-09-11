@@ -1,16 +1,16 @@
-name: Publish Helm Chart
+name: Publish Helm Chart to GHCR
 
 on:
   push:
     branches:
-      - main   # Trigger on pushes to main branch
+      - main
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write   # Needed for pushing to GHCR
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -19,26 +19,28 @@ jobs:
       - name: Set up Helm
         uses: azure/setup-helm@v4
         with:
-          version: v3.14.4   # pick your preferred version
+          version: v3.14.4
 
       - name: Debug folder structure
         run: |
           pwd
-          ls -R
+          ls -R base-chart
 
-      - name: Extract chart version from Chart.yaml
+      - name: Extract version from Chart.yaml
         id: chart_version
         run: |
           VERSION=$(yq e '.version' base-chart/Chart.yaml)
           APP_VERSION=$(yq e '.appVersion' base-chart/Chart.yaml)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted chart version: $VERSION, appVersion: $APP_VERSION"
 
       - name: Package Helm chart
         run: |
           helm package base-chart \
             --version ${{ steps.chart_version.outputs.version }} \
             --app-version ${{ steps.chart_version.outputs.app_version }}
+          ls -la
 
       - name: Log in to GHCR
         run: |
@@ -47,4 +49,9 @@ jobs:
       - name: Push Helm chart to GHCR
         run: |
           FILE=$(ls base-chart-*.tgz | head -n1)
-          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/charts
+          if [ -z "$FILE" ]; then
+            echo "Error: No packaged chart found!"
+            exit 1
+          fi
+          echo "Pushing $FILE to GHCR..."
+          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/helm-base
