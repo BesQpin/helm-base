@@ -21,17 +21,24 @@ jobs:
         with:
           version: v3.14.4   # pick your preferred version
 
-      - name: Extract chart version from chart.yaml
-        id: version
+      - name: Debug folder structure
         run: |
-          VERSION=$(grep '^version:' base-chart/Chart.yaml | awk '{print $2}')
+          pwd
+          ls -R
+
+      - name: Extract chart version from Chart.yaml
+        id: chart_version
+        run: |
+          VERSION=$(yq e '.version' base-chart/Chart.yaml)
+          APP_VERSION=$(yq e '.appVersion' base-chart/Chart.yaml)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
 
       - name: Package Helm chart
         run: |
-          pwd
-          ls -la
-          helm package base-chart --version ${{ steps.version.outputs.version }} --app-version ${{ steps.version.outputs.version }}
+          helm package base-chart \
+            --version ${{ steps.chart_version.outputs.version }} \
+            --app-version ${{ steps.chart_version.outputs.app_version }}
 
       - name: Log in to GHCR
         run: |
@@ -39,4 +46,5 @@ jobs:
 
       - name: Push Helm chart to GHCR
         run: |
-          helm push base-chart-${{ steps.version.outputs.version }}.tgz oci://ghcr.io/${{ github.repository_owner }}/charts
+          FILE=$(ls base-chart-*.tgz | head -n1)
+          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/charts
