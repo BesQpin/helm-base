@@ -1,4 +1,4 @@
-name: Publish Helm Chart to GHCR
+name: Publish Helm Chart to Docker Hub
 
 on:
   push:
@@ -42,11 +42,11 @@ jobs:
             --app-version ${{ steps.chart_version.outputs.app_version }}
           ls -la
 
-      - name: Log in to GHCR
+      - name: Log in to Docker Hub
         run: |
-          echo "${{ github.token }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
+          echo "${{ docker.token }}" | helm registry login registry-1.docker.io -u besqpin --password-stdin
 
-      - name: Push Helm chart to GHCR
+      - name: Push Helm chart to Docker Hub
         run: |
           FILE=$(ls base-chart-*.tgz | head -n1)
           if [ -z "$FILE" ]; then
@@ -54,5 +54,5 @@ jobs:
             exit 1
           fi
           echo "Pushing $FILE to GHCR..."
-          helm push $FILE oci://ghcr.io/${{ github.repository_owner }}/helm-base
+          helm push $FILE oci://registry-1.docker.io/besqpin
 
