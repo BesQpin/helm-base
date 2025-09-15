@@ -92,7 +92,7 @@ securityContext:
   runAsUser: 1654
   seccompProfile:
     type: RuntimeDefault
-  # If you need somewhere to write files, mount it as an emptydir mount https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
+  #mount an emptydir mount if writing to files https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
 
 service:
   port: 80
