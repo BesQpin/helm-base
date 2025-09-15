@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    uses: besqpin/helm-publish/.github/workflows/publish-helm.yaml@main
+    uses: besqpin/workflow-library/.github/workflows/publish-helm.yaml@main
     with:
       chart-path: base-chart   # <-- change per app
       docker-org: besqpin        # <-- your Docker Hub org/user
