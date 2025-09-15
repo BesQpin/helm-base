@@ -39,7 +39,7 @@ jobs:
         id: chart_version
         run: |
           VERSION=$(yq e '.version' ${{ inputs.chart-path }}/Chart.yaml)
-          APP_VERSION=$(yq e '.appVersion' ${{ inputs.chart-path }}/Chart.yaml)
+          APP_VERSION=$(yq e '.appVersion' base-chart/Chart.yaml)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
 
