@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: example-app
+spec:
+  interval: 1h
+  url: oci://docker.io/BesQpin/example-app/
+  type: oci
+  provider: docker

@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: example-app
+spec:
+  interval: 1m
+  chart:
+    spec:
+      chart: example-app
+      version: v1.2.3
+      sourceRef:
+        kind: HelmRepository
+        name: example-app
+      interval: 1m
+  values:
+    example-app:
+      envs:
+        - name: APP_ENV
+          value: "production"
+        - name: FEATURE_FLAG
+          value: "true"
+      annotations:
+        branch: refs/heads/main
+        commit: 812345a
+        deployedBy: BesQpin
+        time: "2025-08-26T10:46:09Z"
+      serviceAccount:
+        create: true
+        annotations:
+          azure.workload.identity/client-id: 00000000-0000-0000-0000-000000000000
