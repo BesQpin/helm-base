@@ -38,14 +38,14 @@ jobs:
       - name: Extract version from Chart.yaml
         id: chart_version
         run: |
-          VERSION=$(yq e '.version' ${{ inputs.chart-path }}/Chart.yaml)
+          VERSION=$(yq e '.version' base-chart/Chart.yaml)
           APP_VERSION=$(yq e '.appVersion' base-chart/Chart.yaml)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "app_version=$APP_VERSION" >> $GITHUB_OUTPUT
 
       - name: Package Helm chart
         run: |
-          helm package ${{ inputs.chart-path }} \
+          helm package base-chart \
             --version ${{ steps.chart_version.outputs.version }} \
             --app-version ${{ steps.chart_version.outputs.app_version }}
 
