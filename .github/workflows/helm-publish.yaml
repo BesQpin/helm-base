@@ -53,6 +53,6 @@ jobs:
             echo "Error: No packaged chart found!"
             exit 1
           fi
-          echo "Pushing $FILE to GHCR..."
+          echo "Pushing $FILE to Docker Hub..."
           helm push $FILE oci://registry-1.docker.io/besqpin
 
