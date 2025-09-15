@@ -55,5 +55,5 @@ jobs:
             exit 1
           fi
           echo "Pushing $FILE to Docker Hub..."
-          helm push $FILE oci://registry-1.docker.io/besqpin
+          helm push $FILE oci://registry-1.docker.io/besqpin/base-chart
 
