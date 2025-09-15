@@ -6,6 +6,7 @@ version: 0.1.0
 appVersion: "1.0.0"
 
 dependencies:
-  - name: base-chart
+  - alias: example-app
+    name: base-chart
     version: 0.1.0
-    repository: "file://../base-chart" 
+    repository: "oci://registry-1.docker.io/besqpin" 

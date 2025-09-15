@@ -1,8 +1,15 @@
-base-chart:
+example-app:
+
+  annotations:
+    branch: main
+    commit: 1234abcd5678efgh90ijklmn
+    deployedBy: user@example.com
+    time: "2023-10-01T12:00:00Z"
+
   replicaCount: 3
 
   image:
-    repository: ghcr.io/myorg/my-app
+    repository: docker.io/besqpin
     tag: "1.2.3"
     pullPolicy: IfNotPresent
 

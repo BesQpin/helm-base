@@ -1,30 +1,78 @@
-replicaCount: 2
+# This is for adding Kubernetes Annotations to a Deployment.
+annotations:
+  branch: ""
+  commit: ""
+  deployedBy: ""
+  time: ""
+
+affinity: {}
+
+auth:
+  # Workload identity configuration
+  workloadIdentity:
+    clientId: ""
+
+autoscaling:
+  enabled: false
+  maxReplicas: 5
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+
+command: ""
+
+configMap:
+  data: {}
+    # KEY: VALUE
+  enabled: true
+
+env:
+  - name: EXAMPLE_ENV
+    value: "default"
 
 image:
+  pullPolicy: IfNotPresent
   repository: nginx
   tag: latest
-  pullPolicy: IfNotPresent
-
-serviceAccount:
-  create: true
-  name: ""
-  annotations: {}
-
-service:
-  type: ClusterIP
-  port: 80
-  targetPort: http
 
 ingress:
-  enabled: false
-  className: ""
   annotations: {}
+  className: ""
+  enabled: false
   hosts:
     - host: example.local
       paths:
         - path: /
           pathType: Prefix
   tls: []
+
+livenessProbe:
+  httpGet:
+    path: /healthz/live
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+
+nodeSelector: {}
+
+pdb:
+  maxUnavailable: null
+  minAvailable: null
+
+podAnnotations: {}
+
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 1654
+
+readinessProbe:
+  httpGet:
+    path: /healthz/ready
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 5
+
+replicaCount: 2
 
 resources: {}
   # limits:
@@ -34,17 +82,30 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-env:
-  - name: EXAMPLE_ENV
-    value: "default"
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1654
+  seccompProfile:
+    type: RuntimeDefault
+  # If you need somewhere to write files, mount it as an emptydir mount https://kubernetes.io/docs/concepts/storage/volumes/#emptydir
 
-configMap:
-  enabled: true
-  data: {}
-    # KEY: VALUE
+service:
+  port: 80
+  targetPort: http
+  type: ClusterIP
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+
+tolerations: []
+
+volumeMounts: []
+
+volumes: []
