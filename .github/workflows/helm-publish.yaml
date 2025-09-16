@@ -17,7 +17,7 @@ jobs:
 
 
   ghcr-publish:
-    uses: besqpin/workflow-library/.github/workflows/ghcr-publish-helm.yml@main
+    uses: besqpin/workflow-library/.github/workflows/ghcr-publish-helm.yaml@main
     with:
       chart-path: base-chart
       ghcr-org: besqpin
