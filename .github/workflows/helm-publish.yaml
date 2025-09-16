@@ -9,7 +9,7 @@ on:
 
 jobs:
   versioning:
-    uses: besqpin/workflow-library/.github/workflows/versioning.yml@main
+    uses: besqpin/workflow-library/.github/workflows/versioning.yaml@main
     with:
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
