@@ -7,7 +7,6 @@ on:
   pull_request:
     types: [closed]
 
-
 jobs:
   #versioning:
   #  uses: besqpin/workflow-library/.github/workflows/versioning.yaml@main
