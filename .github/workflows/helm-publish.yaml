@@ -14,7 +14,6 @@ jobs:
     with:
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
-    id: versioning
 
 
   docker-publish:
