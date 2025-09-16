@@ -19,9 +19,9 @@ jobs:
   ghcr-publish:
     uses: besqpin/workflow-library/.github/workflows/ghcr-publish-helm.yml@main
     with:
-      chart-path: my-app-chart
+      chart-path: base-chart
       ghcr-org: besqpin
-      chart-name: helm-my-app
+      chart-name: base-chart
     secrets:
       GHCR_USERNAME: ${{ github.actor }}
       GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
