@@ -26,7 +26,7 @@ jobs:
       ghcr-org: besqpin
       chart-name: base-chart
       event_name: ${{ github.event_name }}
-      pr_merged: ${{ github.event.pull_request.merged }}
+      pr_merged: ${{ github.event.pull_request && github.event.pull_request.merged || false }}
     secrets:
       GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
