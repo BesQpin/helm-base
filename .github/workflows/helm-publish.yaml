@@ -4,8 +4,19 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types: [closed]
 
 jobs:
+  versioning:
+    needs: build
+    uses: besqpin/workflow-library/.github/workflows/versioning.yml@main
+    with:
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
+    id: versioning
+
+
   docker-publish:
     uses: besqpin/workflow-library/.github/workflows/docker-publish-helm.yaml@main
     with:
