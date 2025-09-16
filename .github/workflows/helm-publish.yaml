@@ -58,4 +58,4 @@ jobs:
             exit 1
           fi
           echo "Pushing $FILE to GitHub Container Registry..."
-          helm push $FILE oci://ghcr.io/besqpin/helm-base:${{ steps.chart_version.outputs.version }}
+          helm push $FILE oci://ghcr.io/besqpin/helm-base
